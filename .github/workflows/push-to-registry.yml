@@ -1,0 +1,33 @@
+name: Build Docker Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_folder:
+        description: 'Folder to build and push'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Build and push Docker image
+      run: |
+        folder=${{ github.event.inputs.build_folder }}
+        actor=${{ github.actor }}
+        if [ -d "$folder" ]; then
+          repository_name=$(basename $(pwd))
+          image_name=ghcr.io/$actor/$repository_name/$folder
+          docker build -t $image_name:$folder $folder
+          docker push $image_name:$folder
+        else
+          echo "Folder '$folder' does not exist."
+          exit 1
+        fi
