@@ -24,7 +24,7 @@ jobs:
         actor=${{ github.actor }}
         if [ -d "$folder" ]; then
           repository_name=$(basename $(pwd))
-          image_name=ghcr.io/$actor/$repository_name/$folder
+          image_name=ghcr.io/$actor/$repository_name
           docker build -t $image_name:$folder $folder
           docker push $image_name:$folder
         else
