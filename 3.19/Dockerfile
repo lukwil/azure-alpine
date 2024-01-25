@@ -6,6 +6,7 @@ COPY entrypoint.sh ./
 # Start and enable SSH
 RUN apk add openssh \
     && apk add lighttpd \
+    %% apk add openrc \
     && rc-update add lighttpd default \
     && rc-service lighttpd restart \
     && echo "root:Docker!" | chpasswd \
