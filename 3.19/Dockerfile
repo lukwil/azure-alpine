@@ -12,6 +12,6 @@ RUN apk add openssh \
     && cd /etc/ssh/ \
     && ssh-keygen -A
 
-EXPOSE 8000 2222
+EXPOSE 80 2222
 
 ENTRYPOINT [ "./entrypoint.sh" ]
