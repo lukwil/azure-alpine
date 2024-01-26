@@ -6,6 +6,7 @@ COPY entrypoint.sh ./
 # Start and enable SSH
 RUN apk add openssh \
     && apk add lighttpd \
+    && apk add postgresql-client \
     && echo "root:Docker!" | chpasswd \
     && chmod +x ./entrypoint.sh \
     && cd /etc/ssh/ \
